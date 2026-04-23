@@ -382,9 +382,62 @@ em {
    SELECTION
    ============================================================ */
 
+/* ============================================================
+   SELECTION — explicit high-contrast, no glow
+   
+   Three different selection mechanisms to handle:
+   1. ::selection — native browser selection (reading mode, chrome)
+   2. .cm-selectionBackground — CodeMirror's selection (editor/live preview)
+   3. The text-shadow glow must be suppressed in both cases so it
+      doesn't bleed through and obscure the selected text.
+   ============================================================ */
+
+/* Native selection (reading mode, sidebar, tabs, etc.) */
 ::selection {
     background-color: var(--phosphor);
-    color: var(--text-selection);
+    color: var(--phosphor-bg);
+    text-shadow: none;
+}
+
+/* CodeMirror selection (the editor you type in) */
+.cm-editor .cm-selectionBackground,
+.cm-editor.cm-focused .cm-selectionBackground,
+.cm-line ::selection,
+.cm-content ::selection {
+    background-color: var(--phosphor) !important;
+    color: var(--phosphor-bg) !important;
+}
+
+/* Kill the glow on the selected text itself so it doesn't wash out */
+.cm-editor .cm-line::selection,
+.cm-editor .cm-line ::selection {
+    text-shadow: none !important;
+    color: var(--phosphor-bg) !important;
+}
+
+/* Light mode variants */
+.theme-light ::selection {
+    background-color: var(--phosphor);
+    color: var(--phosphor-bg);
+    text-shadow: none;
+}
+
+.theme-light .cm-editor .cm-selectionBackground,
+.theme-light .cm-editor.cm-focused .cm-selectionBackground {
+    background-color: var(--phosphor) !important;
+}
+
+/* Inline title (editable filename at top of note) */
+.inline-title {
+    color: var(--text-accent);
+    text-shadow: var(--glow-heading);
+}
+
+.inline-title::selection,
+.inline-title ::selection {
+    background-color: var(--phosphor) !important;
+    color: var(--phosphor-bg) !important;
+    text-shadow: none !important;
 }
 
 
